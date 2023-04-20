@@ -1,0 +1,15 @@
+{
+    "version" : 1.0,
+    "database" : [
+	{
+	    "uid" : "f4e5af53",
+	    "action" : "PLAY",
+	    "parameters" : ["/path/to/file.mp3", "/path/to/directory"]
+	},
+	{
+	    "uid" : "5greg566",
+	    "action" : "PAUSE",
+	    "parameters" : ""
+	}
+    ]
+}

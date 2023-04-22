@@ -1,3 +1,4 @@
+import logging
 import pexpect
 import threading
 import time
@@ -8,16 +9,16 @@ import time
 class NFCWrapper():
 
     def __init__(self, handler=None):
-        print("NFCWrapper init")
+        logging.info("NFCWrapper init")
 
         self.handler = handler
         
         nfclib = self.which("nfc-list")
         nfcbin = self.which("nfc-poll")
         if not nfclib:
-            print("nfc-list not found. please install the libnfc-bin package")
+            logging.warning("nfc-list not found. please install the libnfc-bin package")
         if not nfcbin:
-            print("nfc-poll not found. please install the libnfc-examples package")
+            logging.warning("nfc-poll not found. please install the libnfc-examples package")
 
 
         self.pid_poll = None
@@ -74,22 +75,22 @@ class NFCWrapper():
         return res, tag
 
     def run_poll(self):
-        print("NFCWrapper running")
+        logging.info("NFCWrapper running")
         while self.getRunning():
             res, tag = self.poll()
             if res:
                 if self.handler:
                     self.handler(tag)
                 else:
-                    print(tag)
-        print("NFCWrapper terminated")
+                    logging.info(tag)
+        logging.info("NFCWrapper terminated")
 
 # ------------------------------------------------------------------------------
 
 if __name__ == '__main__':
     nfcwrapper = NFCWrapper()
     if nfcwrapper.getRunning():
-        print("NFCWrapper waiting to read NFC tags for 20 seconds")
+        logging.info("NFCWrapper waiting to read NFC tags for 20 seconds")
         time.sleep(20)
         nfcwrapper.setRunning(False)
     exit(0)

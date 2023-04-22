@@ -1,3 +1,4 @@
+import logging
 import vlc
 import time
 import queue
@@ -37,18 +38,18 @@ class Player():
 
 
     def run_play(self):
-        print("Player running")
+        logging.info("Player running")
         while self.getRunning():
             if not self.vlcplayer.is_playing() and not self.mediaqueue.empty():
                 self.filename = self.mediaqueue.get()
                 self.media = self.vlc_instance.media_new(self.filename)
                 self.vlcplayer.set_media(self.media)
                 self.vlcplayer.play()
-                print("Player now playing", self.filename)
+                logging.info("Player now playing " + self.filename)
             time.sleep(1)
         self.vlcplayer.stop()
         self.vlcplayer.release()
-        print("Player terminated")
+        logging.info("Player terminated")
 
 
         
@@ -65,7 +66,7 @@ class Player():
         for path in pathlist:
             if os.path.isfile(path):
                 self.mediaqueue.put(path)
-                print("Player enqueue", path)
+                logging.info("Player enqueue " + path)
             if os.path.isdir(path):
                 audiotypes = ["mp3", "wav", "aif", "aiff", "ogg"]
                 globfiles = []
@@ -75,7 +76,7 @@ class Player():
                 for gf in globfiles:
                     if os.path.isfile(gf):
                         self.mediaqueue.put(gf)
-                        print("Player enqueue", gf)                    
+                        logging.info("Player enqueue " + gf)                    
         
         time.sleep(4)
         vlcplayer.stop()
@@ -84,7 +85,7 @@ class Player():
 # ------------------------------------------------------------------------------
 
 if __name__ == '__main__':
-    print("Copy some audio files into the /home/"+os.getlogin()+"/Music folder for testing purpose")
+    logging.info("Copy some audio files into the /home/"+os.getlogin()+"/Music folder for testing purpose")
     player = Player()
     time.sleep(4)
     player.enqueue(["/home/"+os.getlogin()+"/Music"])

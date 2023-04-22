@@ -1,8 +1,12 @@
+import logging
 import json
 import os
 import glob
 
 from enum import Enum
+
+from nfc.nfcwrapper import NFCWrapper
+from player.player import Player
 
 
 # ------------------------------------------------------------------------------
@@ -48,7 +52,7 @@ class Database():
                         if entry["action"] == "PAUSE":
                             action = AutomataAction.PAUSE
                         if action is None:
-                            print("JSON load unknown action")
+                            logging.info("JSON load unknown action")
                         self.add(entry["uid"], action, entry["parameters"])
 
     # Load from a directory containing subdirectories with normalized names:
@@ -76,19 +80,35 @@ class Automata():
     def __init__(self):
         self.state = AutomataState.IDLE
         self.database = Database()
+        self.player = None
+        self.nfc = None
 
+    def start(self):
+        logging.info("Automata start")
+        self.player = Player()
+        self.nfc = NFCWrapper(self.trigger)
+
+    def terminate(self):
+        if self.nfc:
+            self.nfc.setRunning(False)
+        if self.player:
+            self.player.setRunning(False)
+        logging.info("Automata terminate")
+        
     def trigger(self, uid):
         if uid in self.database.entries:
             entry = self.database.entries[uid]
             if entry.action == AutomataAction.PLAY:
                 self.state = AutomataState.NOW_PLAYING
-                print("Automata now playing", str(entry.parameters))
+                logging.info("Automata now playing " + str(entry.parameters))
+                if self.player:
+                    self.player.enqueue(entry.parameters)
             if entry.action == AutomataAction.PAUSE:
                 if self.state == AutomataState.NOW_PLAYING:
-                    print("Automata pause")
+                    logging.info("Automata pause")
 
         else:
-            print("Automata unknown NFC UID", str(uid))
+            logging.info("Automata unknown NFC UID " + str(uid))
 
 
 # ------------------------------------------------------------------------------

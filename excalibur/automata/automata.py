@@ -37,6 +37,7 @@ class Database():
         self.entries = dict()
 
     def add(self, uid, action : AutomataAction, parameters=None):
+        logging.info("Database add " + str(uid) + " " + str(parameters))
         entry = Entry(uid, action, parameters)
         self.entries[uid] = entry
 
@@ -63,14 +64,14 @@ class Database():
     # '047ba72cd06c80_Lullaby_songs' directory
     def loadDirectory(self, dirname):
         expath = dirname + "/*"
-        glob.glob(expath, recursive=True)
+        globfiles = glob.glob(expath, recursive=True)
         for gf in globfiles:
             if os.path.isdir(gf):
                 gf_split = gf.split('_', 1)
                 if len(gf_split) > 1:
-                    gf_id = gf_split[0]
+                    gf_id = gf_split[0].split('/')[-1]
                     gf_name = gf_split[1]
-                    self.add(gf_id, AutomataAction.PLAY, [gf_name])
+                    self.add(gf_id, AutomataAction.PLAY, [gf])
 
         
 # ------------------------------------------------------------------------------
@@ -95,7 +96,8 @@ class Automata():
             self.player.setRunning(False)
         logging.info("Automata terminate")
         
-    def trigger(self, uid):
+    def trigger(self, tag):
+        uid = tag["nfc_uid"]
         if self.database.entries and uid in self.database.entries:
             entry = self.database.entries[uid]
             if entry.action == AutomataAction.PLAY:
@@ -110,18 +112,13 @@ class Automata():
         else:
             logging.info("Automata unknown NFC UID " + str(uid))
 
+    def view(self):
+        output = str(self.database.entries)
+        return output
 
 # ------------------------------------------------------------------------------
 
 if __name__ == '__main__':
     automata = Automata()
-    automata.database.add("a2r5f6c5", AutomataAction.PLAY, ["path/to/file.mp3"])
-    automata.database.add("5d4ezadz", AutomataAction.PAUSE)
-    automata.trigger("a2r5f6c5")
-    automata.trigger("erzf54f6")
-    automata.trigger("5d4ezadz")
-    automata.database.loadJSONFiles(["excalibur/examples/database.json"])
-    automata.trigger("f4e5af53")
-    automata.trigger("5greg566")
     exit(0)
 

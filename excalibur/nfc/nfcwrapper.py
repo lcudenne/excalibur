@@ -26,6 +26,11 @@ class NFCWrapper():
         self.setRunning(False)
         
         if nfclib and nfcbin:
+            device = self.nfclist()
+            if device:
+                logging.info(device)
+            else:
+                logging.warning("No NFC device found")
             self.setRunning(True)
             self.pid_poll = threading.Thread(target=self.run_poll)
             self.pid_poll.start()
@@ -51,12 +56,15 @@ class NFCWrapper():
         return res
 
     def nfclist(self):
-        res = False
+        device = None
         child = pexpect.spawn("nfc-list")
         child.expect(pexpect.EOF)
         output = child.before.decode("utf-8").rstrip('\r\n')
-        res = output != ""
-        return res
+        output_split = output.split('\r\n')
+        for line in output_split:
+            if "NFC device:" in line:
+                device = line.split(': ')[1]
+        return device
     
     def poll(self):
         res = False

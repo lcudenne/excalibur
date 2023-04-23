@@ -1,7 +1,7 @@
 import logging
 import time
 
-from automata.automata import Automata
+from excalibur.automata.automata import Automata
 
 # ------------------------------------------------------------------------------
 

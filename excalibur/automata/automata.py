@@ -5,8 +5,8 @@ import glob
 
 from enum import Enum
 
-from nfc.nfcwrapper import NFCWrapper
-from player.player import Player
+from excalibur.nfc.nfcwrapper import NFCWrapper
+from excalibur.player.player import Player
 
 
 # ------------------------------------------------------------------------------

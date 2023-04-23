@@ -27,6 +27,7 @@ class Excalibur():
     def start(self):
         logging.info("Excalibur start")
         self.automata.start()
+        logging.info("Excalibur ready to serve")
 
     def terminate(self):
         self.automata.terminate()

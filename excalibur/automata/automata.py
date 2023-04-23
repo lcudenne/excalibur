@@ -63,11 +63,11 @@ class Database():
     # Will automatically map the NFC card 047ba72cd06c80 with the content of the
     # '047ba72cd06c80_Lullaby_songs' directory
     def loadDirectory(self, dirname):
-        expath = dirname + "/*"
+        expath = dirname + "/**/*"
         globfiles = glob.glob(expath, recursive=True)
         for gf in globfiles:
             if os.path.isdir(gf):
-                gf_split = gf.split('_', 1)
+                gf_split = os.path.basename(gf).split('_', 1)
                 if len(gf_split) > 1:
                     gf_id = gf_split[0].split('/')[-1]
                     gf_name = gf_split[1]

@@ -96,7 +96,7 @@ class Automata():
         logging.info("Automata terminate")
         
     def trigger(self, uid):
-        if uid in self.database.entries:
+        if self.database.entries and uid in self.database.entries:
             entry = self.database.entries[uid]
             if entry.action == AutomataAction.PLAY:
                 self.state = AutomataState.NOW_PLAYING

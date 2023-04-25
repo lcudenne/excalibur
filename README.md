@@ -48,9 +48,9 @@ There are two methods to fill in the database:
 
 ### Method A: From a given directory
 
-This is the simpliest way to build the media database as it only use a
-regular directory in which the media files are stored. You can for
-example use `/home/<your_login>/Public/Excalibur/` as a base directory
+This is the simpliest way to build the media database as it only uses
+a regular directory in which the media files are stored. You can for
+example use `$HOME/Public/Excalibur/` as a base directory
 to host media files. If shared among the network, you will be able to
 update the database without logging to the computer running Excalibur.
 
@@ -66,11 +66,11 @@ eg. `02391d04`) and `<directory_name>` is an arbitrary name. For
 example:
 
 ```
-$ mkdir -p /home/<your_login>/Public/Excalibur/02391d04_Lullaby_songs
+$ mkdir -p $HOME/Public/Excalibur/02391d04_Lullaby_songs
 ```
 
 Will automatically map the NFC tag `02391d04` with the
-`/home/<your_login>/Public/Excalibur/02391d04_Lullaby_songs`, hence
+`$HOME/Public/Excalibur/02391d04_Lullaby_songs`, hence
 playing all the included content when the tag is detected.
 
 

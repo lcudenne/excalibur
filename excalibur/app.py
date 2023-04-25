@@ -1,6 +1,7 @@
 import logging
 import time
 import os
+import argparse
 
 from excalibur.automata.automata import Automata
 
@@ -16,6 +17,7 @@ EXCALIBUR_VERSION_MIN=1
 class Excalibur():
 
     def __init__(self):
+        self.args = self.argparse()
         self.automata = Automata()
         
         logging.basicConfig(level=logging.DEBUG,
@@ -40,14 +42,26 @@ class Excalibur():
     def view(self):
         print(self.automata.view())
         
-            
-        
+
+    def argparse(self):
+        parser = argparse.ArgumentParser(
+            prog = os.path.basename(__file__),
+            description = 'NFC driven media center',
+            epilog = 'https://github.com/lcudenne/excalibur')
+        parser.add_argument("-d", "--duration", type=int, default=1, required=False,
+                            help="application duration before termination given in minutes")
+
+        return parser.parse_args()
+
+
 # ------------------------------------------------------------------------------
 
 if __name__ == '__main__':
     ex = Excalibur()
     ex.load("/home/"+os.getlogin()+"/Public/Excalibur/")
     ex.start()
-    time.sleep(10)
+    if ex.args.duration:
+        logging.info("Now running " + str(ex.args.duration) + " minute(s)")
+        time.sleep(ex.args.duration * 60)
     ex.terminate()
     exit(0)

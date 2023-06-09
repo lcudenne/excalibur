@@ -96,6 +96,9 @@ class NFCWrapper():
 # ------------------------------------------------------------------------------
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG,
+                        format='%(asctime)s %(levelname)-8s %(message)s',
+                        datefmt='%Y-%m-%d %H:%M:%S')
     nfcwrapper = NFCWrapper()
     if nfcwrapper.getRunning():
         logging.info("NFCWrapper waiting to read NFC tags for 20 seconds")

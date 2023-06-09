@@ -4,7 +4,7 @@ NFC driven media center
 ## Cold start
 
 ```bash
-$ sudo apt install libnfc-bin libnfc-examples vlc libvlc-bin libvlc-dev
+$ sudo apt install libnfc-bin libnfc-examples vlc libvlc-bin libvlc-dev python3-venv
 ```
 
 Connect the NFC device. The following command should be able to open the interface:

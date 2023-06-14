@@ -18,12 +18,12 @@ class Excalibur():
 
     def __init__(self):
         self.args = self.argparse()
-        self.automata = Automata()
-        
         logging.basicConfig(level=logging.DEBUG,
                             format='%(asctime)s %(levelname)-8s %(message)s',
                             datefmt='%Y-%m-%d %H:%M:%S')
         logging.info(EXCALIBUR_NAME + " v" + str(EXCALIBUR_VERSION_MAJ) + "." + str(EXCALIBUR_VERSION_MIN))
+        self.automata = Automata()
+
         
 
     def start(self):
@@ -48,6 +48,8 @@ class Excalibur():
             prog = os.path.basename(__file__),
             description = 'NFC driven media center',
             epilog = 'https://github.com/lcudenne/excalibur')
+        parser.add_argument("-f", "--folder", type=str, required=False,
+                            help="folder prefix to recursively load the Excalibur sound database")
         parser.add_argument("-d", "--duration", type=int, default=1, required=False,
                             help="application duration before termination given in minutes")
 
@@ -58,10 +60,17 @@ class Excalibur():
 
 if __name__ == '__main__':
     ex = Excalibur()
-    ex.load("/home/"+os.getlogin()+"/Public/Excalibur/")
+
+    if ex.args.folder:
+        ex.load(ex.args.folder)
+    else:
+        ex.load("/home/"+os.getlogin()+"/Public/Excalibur/")
+
     ex.start()
+
     if ex.args.duration:
-        logging.info("Now running " + str(ex.args.duration) + " minute(s)")
+        logging.info("Now running for " + str(ex.args.duration) + " minute(s)")
         time.sleep(ex.args.duration * 60)
+
     ex.terminate()
     exit(0)

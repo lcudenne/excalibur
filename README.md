@@ -67,7 +67,7 @@ Where `<NFC_UID>` is the UID of the NFC tag (without spaces,
 eg. `02391d04`) and `<directory_name>` is an arbitrary name. For
 example:
 
-```
+```bash
 $ mkdir -p $HOME/Public/Excalibur/02391d04_Lullaby_songs
 ```
 
@@ -87,4 +87,19 @@ Quick start using method A to build the media database:
 
 ```bash
 (venv) $ PYTHONPATH+=. python3 excalibur/app.py
+```
+
+Folder `$HOME/Public/Excalibur/` is automatically loaded when starting
+Excalibur. To override this option and select a different directory,
+you can use the `--folder` option:
+
+```bash
+$ (venv) $ PYTHONPATH+=. python3 excalibur/app.py --folder /media/$USER/usbstorage/Excalibur/
+```
+
+By default, Excalibur runs for 30 minutes then terminates. You can
+modify this duration using the following parameter (in minutes):
+
+```bash
+(venv) $ PYTHONPATH+=. python3 excalibur/app.py --duration 120
 ```

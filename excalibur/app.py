@@ -50,7 +50,7 @@ class Excalibur():
             epilog = 'https://github.com/lcudenne/excalibur')
         parser.add_argument("-f", "--folder", type=str, required=False,
                             help="folder prefix to recursively load the Excalibur sound database")
-        parser.add_argument("-d", "--duration", type=int, default=1, required=False,
+        parser.add_argument("-d", "--duration", type=int, default=30, required=False,
                             help="application duration before termination given in minutes")
 
         return parser.parse_args()

@@ -103,3 +103,20 @@ modify this duration using the following parameter (in minutes):
 ```bash
 (venv) $ PYTHONPATH+=. python3 excalibur/app.py --duration 120
 ```
+
+## Automatic start at boot time
+
+Starting Excalibur at startup can be achieved by editing the `rc.local` file:
+
+```bash
+$ sudo nano /etc/rc.local
+```
+
+Add the following lines, do not forget the `exit 0` at the end of the file:
+
+```
+pulseaudio --start
+bash -c 'cd /home/path/to/excalibur/ && ./start.sh --duration 120 --folder /media/path/to/sound/library/' &
+
+exit 0
+```

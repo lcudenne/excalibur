@@ -24,6 +24,15 @@ class Player():
         self.pid_play = threading.Thread(target=self.run_play)
         self.pid_play.start()
 
+    def bell(self):
+        vlcplayer = self.vlc_instance.media_player_new()
+        media = self.vlc_instance.media_new("excalibur/data/333695__khrinx__thin-bell-ding-2.wav")
+        vlcplayer.set_media(media)
+        vlcplayer.play()
+        time.sleep(4)
+        vlcplayer.stop()
+        vlcplayer.release()
+
 
     def getRunning(self):
         self.running_lock.acquire()

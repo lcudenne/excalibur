@@ -88,8 +88,10 @@ class Automata():
         logging.info("Automata start")
         self.player = Player()
         self.nfc = NFCWrapper(self.trigger)
+        self.player.bell()
 
     def terminate(self):
+        self.player.bell()
         if self.nfc:
             self.nfc.setRunning(False)
         if self.player:

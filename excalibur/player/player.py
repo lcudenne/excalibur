@@ -5,13 +5,15 @@ import queue
 import threading
 import os
 import glob
+import random
 
 
 # ------------------------------------------------------------------------------
 
 class Player():
 
-    def __init__(self):
+    def __init__(self, args=None):
+        self.args = args
         self.vlc_instance = vlc.Instance()
         self.vlcplayer = self.vlc_instance.media_player_new()
         self.media = None
@@ -82,10 +84,12 @@ class Player():
                 for audiotype in audiotypes:
                     expath = path + "/*." + audiotype
                     globfiles.extend(glob.glob(expath, recursive=True))
+                if self.args.shuffle:
+                    random.shuffle(globfiles)
                 for gf in globfiles:
                     if os.path.isfile(gf):
                         self.mediaqueue.put(gf)
-                        logging.info("Player enqueue " + gf)                    
+                        logging.info("Player enqueue " + gf)
         
         time.sleep(4)
         vlcplayer.stop()

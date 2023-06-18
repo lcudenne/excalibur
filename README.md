@@ -90,11 +90,11 @@ Quick start using method A to build the media database:
 ```
 
 Folder `$HOME/Public/Excalibur/` is automatically loaded when starting
-Excalibur. To override this option and select a different directory,
-you can use the `--folder` option:
+Excalibur. To override this option and select different directories,
+you can use the `--library` option multiple times:
 
 ```bash
-$ (venv) $ PYTHONPATH+=. python3 excalibur/app.py --folder /media/$USER/usbstorage/Excalibur/
+$ (venv) $ PYTHONPATH+=. python3 excalibur/app.py --library $HOME/Music/Excalibur/ --library /media/$USER/usbstorage/Excalibur/
 ```
 
 By default, Excalibur runs for 30 minutes then terminates. You can
@@ -103,6 +103,10 @@ modify this duration using the following parameter (in minutes):
 ```bash
 (venv) $ PYTHONPATH+=. python3 excalibur/app.py --duration 120
 ```
+
+You can also shuffle playlists with the `--shuffle` flag.
+
+
 
 ## Automatic start at boot time
 
@@ -116,7 +120,7 @@ Add the following lines, do not forget the `exit 0` at the end of the file:
 
 ```
 pulseaudio --start
-bash -c 'cd /home/path/to/excalibur/ && ./start.sh --duration 120 --folder /media/path/to/sound/library/' &
+bash -c 'cd /home/path/to/excalibur/ && ./start.sh --duration 120 --library /media/path/to/sound/library/' &
 
 exit 0
 ```

@@ -22,7 +22,7 @@ class Excalibur():
                             format='%(asctime)s %(levelname)-8s %(message)s',
                             datefmt='%Y-%m-%d %H:%M:%S')
         logging.info(EXCALIBUR_NAME + " v" + str(EXCALIBUR_VERSION_MAJ) + "." + str(EXCALIBUR_VERSION_MIN))
-        self.automata = Automata()
+        self.automata = Automata(args=self.args)
 
         
 
@@ -48,10 +48,12 @@ class Excalibur():
             prog = os.path.basename(__file__),
             description = 'NFC driven media center',
             epilog = 'https://github.com/lcudenne/excalibur')
-        parser.add_argument("-f", "--folder", type=str, required=False,
-                            help="folder prefix to recursively load the Excalibur sound database")
+        parser.add_argument("-l", "--library", type=str, action='append', required=False,
+                            help="specify path to the sound library. It is possible to use multiple times this argument")
         parser.add_argument("-d", "--duration", type=int, default=30, required=False,
                             help="application duration before termination given in minutes")
+        parser.add_argument('-s', "--shuffle", action='store_true', required=False,
+                            help="shuffle playlist for all entries")
 
         return parser.parse_args()
 
@@ -61,8 +63,9 @@ class Excalibur():
 if __name__ == '__main__':
     ex = Excalibur()
 
-    if ex.args.folder:
-        ex.load(ex.args.folder)
+    if ex.args.library:
+        for libpath in ex.args.library:
+            ex.load(libpath)
     else:
         ex.load("/home/"+os.getlogin()+"/Public/Excalibur/")
 

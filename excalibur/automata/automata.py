@@ -78,7 +78,8 @@ class Database():
 
 class Automata():
     
-    def __init__(self):
+    def __init__(self, args=None):
+        self.args = args
         self.state = AutomataState.IDLE
         self.database = Database()
         self.player = None
@@ -86,7 +87,7 @@ class Automata():
 
     def start(self):
         logging.info("Automata start")
-        self.player = Player()
+        self.player = Player(args=self.args)
         self.nfc = NFCWrapper(self.trigger)
         self.player.bell()
 
